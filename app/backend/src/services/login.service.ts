@@ -15,7 +15,7 @@ class LoginService {
       { where: { email: login.email } },
     );
 
-    if (!user) throw new CustomError(401, 'invalid login');
+    if (!user) throw new CustomError(401, 'Incorrect email or password');
 
     const token = tokenHelper.generate(user.id, user.username);
 
