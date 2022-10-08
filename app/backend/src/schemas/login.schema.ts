@@ -7,6 +7,11 @@ const login = Joi.object({
     'any.required': message,
     'string.empty': message,
   }).required(),
+
+  password: Joi.string().min(7).messages({
+    'any.required': message,
+    'string.empty': message,
+  }).required(),
 });
 
 export default {
