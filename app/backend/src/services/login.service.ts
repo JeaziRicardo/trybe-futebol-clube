@@ -4,6 +4,7 @@ import User from '../database/models/UserModel';
 import IToken from '../interfaces/IToken';
 import CustomError from '../erros/customErros';
 import Validate from '../middlewares/validate.middleware';
+import IUser from '../interfaces/IUser';
 
 class LoginService {
   private _userModel = User;
@@ -20,6 +21,18 @@ class LoginService {
     const token = tokenHelper.generate(user.id, user.username);
 
     return { token };
+  }
+
+  async validate(token: string | undefined): Promise<IUser> {
+    if (!token) throw new CustomError(404, 'Token not found');
+
+    const { id } = tokenHelper.verify(token);
+
+    const { role } = await this._userModel.findOne(
+      { where: { id } },
+    ) as User;
+
+    return { role };
   }
 }
 
