@@ -12,6 +12,14 @@ class LoginController {
 
     return res.status(200).json(token);
   };
+
+  public validate = async (req: Request, res: Response): Promise<Response> => {
+    const { authorization: token } = req.headers;
+
+    const role = await this._loginService.validate(token);
+
+    return res.status(200).json(role);
+  };
 }
 
 export default LoginController;
