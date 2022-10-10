@@ -1,6 +1,7 @@
 import * as express from 'express';
 import 'express-async-errors';
 import login from './routes/login.router';
+import teams from './routes/teams.router';
 import errorMiddleware from './middlewares/error.middleware';
 
 class App {
@@ -14,6 +15,7 @@ class App {
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
     this.app.use('/login', login);
+    this.app.use('/teams', teams);
 
     this.app.use(errorMiddleware);
   }
