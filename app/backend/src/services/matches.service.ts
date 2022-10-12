@@ -2,6 +2,7 @@ import Team from '../database/models/TeamModel';
 import Match from '../database/models/MatchModel';
 import { IMatch } from '../interfaces/IMatch';
 import validate from '../middlewares/validate.middleware';
+import CustomError from '../erros/customErros';
 
 class MatchesService {
   private _matchModel = Match;
@@ -26,8 +27,10 @@ class MatchesService {
     return matchesInProgress;
   }
 
-  public async create(match: IMatch): Promise<Match> {
-    await validate.match([match.homeTeam, match.awayTeam]);
+  public async create(match: IMatch, token: string | undefined): Promise<Match> {
+    if (!token) throw new CustomError(404, 'Token not found');
+
+    await validate.match([match.homeTeam, match.awayTeam], token);
 
     const matchData = await this._matchModel.create(match);
 

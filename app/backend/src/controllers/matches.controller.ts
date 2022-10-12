@@ -13,7 +13,8 @@ class MatchesController {
   };
 
   public create = async (req: Request, res: Response): Promise<Response> => {
-    const match = await this._matchesService.create(req.body);
+    const { authorization: token } = req.headers;
+    const match = await this._matchesService.create(req.body, token);
 
     return res.status(201).json(match);
   };

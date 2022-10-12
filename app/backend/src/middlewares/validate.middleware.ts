@@ -1,3 +1,4 @@
+import tokenHelper from '../helpers/token.helper';
 import Team from '../database/models/TeamModel';
 import CustomError from '../erros/customErros';
 import ILogin from '../interfaces/ILogin';
@@ -14,7 +15,9 @@ const login = ({ email, password }: ILogin) => {
   }
 };
 
-const match = async (teams: number[]) => {
+const match = async (teams: number[], token: string) => {
+  tokenHelper.verify(token);
+
   if (teams[0] === teams[1]) {
     throw new CustomError(401, UNAUTHORIZED);
   }
