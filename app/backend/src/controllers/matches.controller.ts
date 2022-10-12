@@ -26,6 +26,14 @@ class MatchesController {
 
     return res.status(200).json({ message });
   };
+
+  public upScore = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    const message = await this._matchesService.upScore(+id, req.body);
+
+    return res.status(200).json({ message });
+  };
 }
 
 export default MatchesController;
