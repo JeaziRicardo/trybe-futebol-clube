@@ -1,6 +1,7 @@
 import Team from '../database/models/TeamModel';
 import Match from '../database/models/MatchModel';
 import { IMatch } from '../interfaces/IMatch';
+import validate from '../middlewares/validate.middleware';
 
 class MatchesService {
   private _matchModel = Match;
@@ -26,6 +27,8 @@ class MatchesService {
   }
 
   public async create(match: IMatch): Promise<Match> {
+    await validate.match([match.homeTeam, match.awayTeam]);
+
     const matchData = await this._matchModel.create(match);
 
     return matchData;
