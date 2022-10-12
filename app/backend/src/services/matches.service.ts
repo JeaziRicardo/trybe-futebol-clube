@@ -3,6 +3,7 @@ import Match from '../database/models/MatchModel';
 import { IMatch } from '../interfaces/IMatch';
 import validate from '../middlewares/validate.middleware';
 import CustomError from '../erros/customErros';
+import IScore from '../interfaces/IScore';
 
 class MatchesService {
   private _matchModel = Match;
@@ -41,6 +42,17 @@ class MatchesService {
     await this._matchModel.update({ inProgress: false }, { where: { id } });
 
     const message = 'Finished';
+
+    return message;
+  }
+
+  public async upScore(id: number, { homeTeamGoals, awayTeamGoals }: IScore):Promise<string> {
+    await this._matchModel.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
+
+    const message = 'Updated score';
 
     return message;
   }
